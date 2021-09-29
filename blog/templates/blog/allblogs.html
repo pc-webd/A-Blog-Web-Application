@@ -1,0 +1,69 @@
+{% extends 'blog/basetemp.html' %}
+{%block title%}
+    {%if msg%}
+        My Blogs
+    {%else%}
+        All Blogs
+    {%endif%}
+{%endblock%}
+        {%block content%}
+            {% load static%}
+            <hr/>
+            <div id="latest-blog">
+                <div class="container">
+                    <div class="row" style="//border:1px solid red">
+                        <div class="col-md-12">      
+                                <h2 class="text-center">
+                                    
+                                    {%if msg%}
+                                        {%if blogs %}
+                                            My Blogs
+                                        {%else%}
+                                            You have no Blogs, <a href="{% url 'blog:add-blog' %}">Create now your first Blog</a>
+                                        {%endif%}
+                                    {%else%}
+                                        {%if blogs %}
+                                            All Latest Blogs
+                                        {%else%}
+                                            Sorry,No Blogs Found
+                                        {%endif%}
+                                    {%endif%}
+                                </h2>
+                                <center><img src="{% static 'images/under-heading.png' %}" alt="" ></center>       
+                        </div>
+                    </div>
+                    <br>
+                    {%if blogs%}
+                    <div class="row">
+                        
+                        {% for b in blogs%}
+                        <div class="col-md-4 col-sm-6">
+                            <div class="blog-post">
+                                <div class="blog-thumb">
+                                    <img src="{{b.image.url}}" alt="" />
+                                </div>
+                                <div class="blog-content">
+                                    <div class="content-show">
+                                        <h4><a href="{% url 'blog:detail' b.slug %}">{{b.title}} | <span style="color:red;font-size:11px"><i class='fas fa-user' style='font-size:11px'></i> {{b.user}}</span></a></h4>
+                                        <span>{{b.created_at}}</span><br>
+                                        {% if msg %}
+                                        <a href="{% url 'blog:deleteBlog' b.id  %}" style="float: right;margin-right: 10px;"><i class='fas fa-trash' style='font-size:25px'></i></a> 
+                                        <a href="{% url 'blog:updateBlog' b.slug  %}" style="float: right; margin-right: 10px;"><i class='fas fa-edit' style='font-size:25px'></i></a>
+                                        {%endif%}
+                                    </div>
+                                    <div class="content-hide">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%if forloop.counter|divisibleby:3 %}
+                    </div>
+                    <div class="row">
+                        {%endif%}
+                        {%endfor%}
+                    </div>
+                    {%endif%}
+                    
+                </div>
+            </div>
+        {%endblock%}

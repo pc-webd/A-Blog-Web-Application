@@ -1,0 +1,86 @@
+{% extends 'blog/base.html' %}
+{%block title%}Login{%endblock%}
+{%load static%}
+{%block cssstyle%}
+    body,html{height:100%;}
+    .banner {
+        background-image:url({% static 'images/banner.jpg' %});
+        height:100%;
+        background-size:cover;
+    }
+    .title{
+        padding-right:25px;
+        text-decoration:none;
+    }
+{%endblock%}
+
+{%block content%}
+<div class="container-fluid banner">
+   
+    <div class="row">
+        <a href="{% url 'blog:home'%}" class="title"><h1 class="pr-2 mt-3 display text-white" align="right">My Blog</h1></a>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mt-5 p-5">
+                <h2>Login</h2><hr>
+                <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label">Username</label>
+                      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                      <div id="emailHelp" class="form-text">We'll never share your identity with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password"  class="form-control" id="exampleInputPassword1">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <button type="" onclick='login()' class="btn btn-primary">Login</button>
+                <a href="{% url 'blog:register'%}">Register Here</a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    
+function login(){
+    var username=document.getElementById('exampleInputEmail1').value 
+    var password=document.getElementById('exampleInputPassword1').value
+    var csrf=document.getElementById('csrf').value 
+
+
+    if(username == '' || password == ''){
+        alert('Must Enter Both Fields')
+    }
+
+    data={
+        'username': username,
+        'password': password
+    }
+
+    fetch('/api/login/',{
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrf,
+        },
+        body: JSON.stringify(data)
+    }).then(result => result.json())
+    .then(response => {
+
+        if(response['status'] == 200){
+            window.location.href= '/'
+        }
+        else{
+            alert('Username or password is not valid ')
+        }
+    })
+}
+
+</script>
+
+{%endblock%}

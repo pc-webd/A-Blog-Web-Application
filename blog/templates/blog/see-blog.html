@@ -1,0 +1,149 @@
+{% extends 'blog/basetemp.html'%}
+{%block title%}{{object.title}}{%endblock%}
+    {%block content%}
+        {%load static%}
+            <div id="heading">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="heading-content">
+                                <h2>Blog</h2>
+                                <span>Home / <a href="{% url 'blog:detail' object.slug %}">{{object.title}}</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="product-post">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="heading-section">
+                                <h2>{{object.title}}</h2>
+                                <img src="{% static 'images/under-heading.png' %}" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="single-blog" class="page-section first-section">
+                        <div class="container">
+                            <div class="row">
+                                <div class="product-item col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-8">  
+                                                <div class="image">
+                                                    <div class="image-post">
+                                                        <img src="{{object.image.url}}" alt="" width="80%" height="">
+                                                    </div>
+                                                </div>
+                                                <div class="product-content">
+                                                    <div class="product-title">
+                                                        <h3>{{object.title}}</h3>
+                                                        <span class="subtitle"><i class='fas fa-user' style='font-size:11px'></i> {{object.user}}</span>
+                                                    </div>
+                                                        {{object.content | safe}}
+
+                                                </div>
+                                                <div class="divide-line">
+                                                <img src="{% static 'images/div-line.png'%}" alt="" />
+                                                </div>
+                                                <div class="comments-title">
+                                                    <div class="comment-section">
+                                                        <h4>
+                                                            {%for c in comm %}{{forloop.count}}{%endfor%}
+                                                            
+                                                        comments</h4>
+                                                    </div>
+                                                </div>
+                                                <div class="all-comments">
+                                                    <div class="view-comments">
+                                                        {%for c in comm %}
+                                                        <div class="comments">
+                                                            <div class="author-thumb">
+                                                                <img src="{% static 'images/author-comment1.jpg' %}" alt="">
+                                                            </div>
+                                                            <div class="comment-body">
+                                                                <h6>{{c.name}}</h6>
+                                                                <span class="date">{{c.created}}</span>
+                                                                <a href="#" class="hidden-xs">Reply</a>
+                                                                <p>{{c.body}}</p>
+                                                            </div>
+                                                        </div>
+                                                        {%endfor%}
+                                                    </div>
+                                                    <div class="replyed-form">
+                                                        <div class="comments replyed">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="divide-line">
+                                                    <img src="{% static 'images/div-line.png'%}" alt="" />
+                                                </div>
+                                            <div class="leave-comment">
+                                                <div class="leave-one">
+                                                    <h4>Leave a comment</h4>
+                                                </div>
+                                            </div>
+                                            <div class="leave-form">
+                                                {%if msg %}
+                                                <span class="alert alert-danger">{{msg}}</span>
+                                                {%endif%}
+                                                <form action="" method="post" class="leave-comment">
+                                                    {%csrf_token%}
+                                                    <input type="hidden" name="blog_id" id="" value="{{object.id}}">
+                                                    <div class="row">
+                                                    <div class="name col-md-4">
+                                                        <input type="text" name="name" id="name" placeholder="Name" required />
+                                                    </div>
+                                                    <div class="email col-md-4">
+                                                        <input type="text" name="email" id="email" placeholder="Email" required />
+                                                    </div>
+                                                   
+                                                    </div>
+                                                    <div class="row">        
+                                                        <div class="text col-md-12">
+                                                            <textarea name="comment" required placeholder="Comment"></textarea>
+                                                        </div>   
+                                                    </div>                              
+                                                    <div class="send">
+                                                        <button type="submit">Send</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-md-offset-1">
+                                            <div class="side-bar">
+                                                <div class="recent-post">
+                                                    <h4>Recent Posts</h4>
+                                                    <div class="posts">
+                                                        {% for blog in blogs %}
+                                                        {%if blog.slug != object.slug%}
+                                                            <div class="recent-post">
+                                                                <div class="recent-post-thumb">
+                                                                    <img src="{{blog.image.url}}" alt="" width="70px">
+                                                                </div>
+                                                                <div class="recent-post-info">
+                                                                    <h6><a href="{% url 'blog:detail' blog.slug %}">{{blog.title}}</a></h6>
+                                                                    <span>{{blog.created_at}}</span>
+                                                                </div>
+                                                            </div>
+                                                        {%endif%}
+                                                        {%endfor%}
+                                                        
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        </div>     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>     
+                </div>
+            </div>
+    {%endblock%}
+
+
+			
