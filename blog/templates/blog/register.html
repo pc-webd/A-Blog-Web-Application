@@ -1,10 +1,10 @@
 {% extends 'blog/base.html' %}
 {%block title%}Sign up{%endblock%}
 {%load static%}
-{%block cssstyle%}
+{%block cssstyle %}
     body,html{height:100%;}
     .banner {
-        background-image:url({% static 'images/banner.jpg' %});
+        background-image:url({% static 'images/bann.jpg' %});
         height:100%;
         background-size:cover;
     }
@@ -25,12 +25,12 @@
                 <h2>Register</h2><hr>
                     <div class="mb-3">
                       <label for="exampleInputEmail2" class="form-label">Create your Username</label>
-                      <input type="text" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp">
+                      <input type="text" class="form-control" id="username" aria-describedby="user">
                       <div id="emailHelp" class="form-text">We'll never share your identity with anyone else.</div>
                     </div>
                     <div class="mb-3">
                       <label for="exampleInputPassword2" class="form-label">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword2">
+                      <input type="password" class="form-control" id="exampleInputPassword2" minlength="8" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 3}$">
                     </div>
                 
                     <button type="" onclick="register()" class="btn btn-primary">Register</button>  
@@ -44,12 +44,18 @@
 
 <script>
     function register(){
-        var username=document.getElementById('exampleInputEmail2').value 
+        var username=document.getElementById('username').value 
         var password=document.getElementById('exampleInputPassword2').value
         var csrf=document.getElementById('csrf').value 
     
         if(username == '' || password == ''){
             alert('Must Enter Both Fields')
+            return false;
+        }
+        if(password != '' && password.length < 8)
+        {
+            alert("Minlength of the password is eight")
+            return false;
         }
         data={
             'username': username,
@@ -70,10 +76,9 @@
                 window.location.href= '/'
             }
             else{
-                alert('Username is already taken ')
+                alert('Username is already taken')
             }
         })
     }
-    
     </script>
 {%endblock%}

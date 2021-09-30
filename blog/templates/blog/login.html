@@ -4,7 +4,7 @@
 {%block cssstyle%}
     body,html{height:100%;}
     .banner {
-        background-image:url({% static 'images/banner.jpg' %});
+        background-image:url({% static 'images/bann.jpg' %});
         height:100%;
         background-size:cover;
     }
@@ -33,10 +33,7 @@
                     <label for="exampleInputPassword1" class="form-label">Password</label>
                     <input type="password"  class="form-control" id="exampleInputPassword1">
                 </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
+               
                 <button type="" onclick='login()' class="btn btn-primary">Login</button>
                 <a href="{% url 'blog:register'%}">Register Here</a>
             </div>

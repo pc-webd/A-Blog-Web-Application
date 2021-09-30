@@ -137,15 +137,16 @@ def updateBlog(request,slug):
             form=BlogForm(request.POST)
             title=request.POST.get('title')
             image=request.FILES['image']
-
             if form.is_valid():
                 content=form.cleaned_data['content']
-            
+        
             blog_obj.title= title
+            print(title)
             blog_obj.image= image
             blog_obj.content=content
             blog_obj.save()
-            return redirect('blog:my-blog')
+            
+            return render(request,'blog/allblogs.html',context)
 
         return render(request,'blog/update-blog.html',context)
                 
